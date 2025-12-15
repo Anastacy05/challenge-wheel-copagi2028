@@ -30,7 +30,7 @@ export default function WheelOfDares() {
     setSelectedDare(null);
 
     // Calcul de la rotation aléatoire (5-8 tours + angle aléatoire)
-    const spins = 5 + Math.random() * 3;
+    const spins = 9 + Math.random() * 3;
     const extraDegrees = Math.random() * 360;
     const totalRotation = rotation + spins * 360 + extraDegrees;
 
@@ -42,13 +42,13 @@ export default function WheelOfDares() {
       const segmentAngle = 360 / dares.length;
       const selectedIndex = Math.floor((360 - normalizedRotation) / segmentAngle) % dares.length;
       
-      setSelectedDare(dares[selectedIndex]);
+      setSelectedDare(dares[selectedIndex].text);
       setIsSpinning(false);
     }, 10000); // Durée de l'animation
   };
 
   return (
-    <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-row justify-center gap-10">
       {/* Conteneur de la roue */}
       <div className="relative w-96 h-96">
         {/* Indicateur (flèche) */}
@@ -115,26 +115,28 @@ export default function WheelOfDares() {
         </div>
       </div>
 
-      {/* Bouton de lancement */}
-      <button
-        onClick={spinWheel}
-        disabled={isSpinning}
-        className="px-8 py-4 bg-amber-300 hover:bg-amber-500 disabled:bg-gray-400 text-gray-900 font-bold text-xl rounded-full shadow-lg transform transition hover:scale-105 disabled:cursor-not-allowed disabled:scale-100"
-      >
-        {isSpinning ? ' En cours...' : ' Lancer la roue !'}
-      </button>
+	 <div className="flex flex-col items-center gap-10">
+		  {/* Bouton de lancement */}
+		  <button
+			onClick={spinWheel}
+			disabled={isSpinning}
+			className="px-8 py-4 bg-amber-300 hover:bg-amber-500 disabled:bg-gray-400 text-gray-900 font-bold text-xl rounded-full shadow-lg transform transition hover:scale-105 disabled:cursor-not-allowed disabled:scale-100"
+		  >
+			{isSpinning ? ' En cours...' : ' Lancer la roue !'}
+		  </button>
 
-      {/* Résultat */}
-      {selectedDare && (
-        <div className="bg-white rounded-lg p-6 shadow-2xl max-w-md animate-bounce">
-          <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">
-            Ton gage :
-          </h2>
-          <p className="text-3xl font-bold text-purple-600 text-center">
-            {selectedDare.text}
-          </p>
-        </div>
-      )}
+		  {/* Résultat */}
+		  {selectedDare && (
+			<div className="bg-white rounded-lg p-6 shadow-2xl max-w-md animate-bounce">
+			  <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">
+				Ton gage :
+			  </h2>
+			  <p className="text-3xl font-bold text-purple-600 text-center">
+				{selectedDare}
+			  </p>
+			</div>
+		  )}
+	</div>
     </div>
   );
 }
