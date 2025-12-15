@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
-// Liste des gages
 const dares = [
   {icon: "💋", text: "Baiser interdit"},
   {icon: "🎭", text: "Démasquer la beauté"},
@@ -16,127 +15,216 @@ const dares = [
   {icon: "🪞", text: "Miroir des désirs"}
 ];
 
+// Fonction pour créer un arc de cercle SVG
+function describeArc(x: number, y: number, radius: number, startAngle: number, endAngle: number) {
+  const start = polarToCartesian(x, y, radius, endAngle);
+  const end = polarToCartesian(x, y, radius, startAngle);
+  const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+  
+  return [
+    "M", start.x, start.y,
+    "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
+    "L", x, y,
+    "Z"
+  ].join(" ");
+}
+
+function polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number) {
+  const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
+  return {
+    x: centerX + radius * Math.cos(angleInRadians),
+    y: centerY + radius * Math.sin(angleInRadians)
+  };
+}
+
 export default function WheelOfDares() {
   const [isSpinning, setIsSpinning] = useState(false);
-  const [selectedDare, setSelectedDare] = useState<string | null>(null);
+  const [selectedDare, setSelectedDare] = useState<{icon: string, text: string} | null>(null);
   const [rotation, setRotation] = useState(0);
-  const wheelRef = useRef<HTMLDivElement>(null);
 
-  // Fonction pour lancer la roue
   const spinWheel = () => {
     if (isSpinning) return;
 
     setIsSpinning(true);
     setSelectedDare(null);
 
-    // Calcul de la rotation aléatoire (5-8 tours + angle aléatoire)
     const spins = 9 + Math.random() * 3;
     const extraDegrees = Math.random() * 360;
     const totalRotation = rotation + spins * 360 + extraDegrees;
 
     setRotation(totalRotation);
 
-    // Calculer le gage sélectionné après l'animation
     setTimeout(() => {
       const normalizedRotation = totalRotation % 360;
       const segmentAngle = 360 / dares.length;
       const selectedIndex = Math.floor((360 - normalizedRotation) / segmentAngle) % dares.length;
       
-      setSelectedDare(dares[selectedIndex].text);
+      setSelectedDare(dares[selectedIndex]);
       setIsSpinning(false);
-    }, 10000); // Durée de l'animation
+    }, 10000);
   };
 
+  // Couleurs mystère & séduction
+  const colors = [
+    "#8B0000", // Rouge sombre
+    "#4B0082", // Indigo profond
+    "#8B008B", // Magenta foncé
+    "#DC143C", // Cramoisi
+    "#800080", // Violet
+    "#C71585", // Rose profond
+    "#9400D3", // Violet foncé
+    "#FF1493", // Rose vif
+    "#8B4513", // Brun séduction
+    "#B8860B", // Or sombre
+  ];
+
   return (
-    <div className="flex flex-row justify-center gap-10">
-      {/* Conteneur de la roue */}
-      <div className="relative w-96 h-96">
-        {/* Indicateur (flèche) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-10">
-          <div className="w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-t-[40px] border-t-amber-200 drop-shadow-lg" />
-        </div>
+    <div className="min-h-screen flex items-center justify-center p-8">
+      <div className="flex flex-col lg:flex-row items-center gap-10">
+        {/* Conteneur de la roue */}
+        <div className="relative">
+          {/* Halo lumineux derrière la roue */}
+          <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 opacity-30 rounded-full scale-110" />
+          
+          <div className="relative w-96 h-96">
+            {/* Indicateur (flèche dorée) */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4 z-20">
+              <div className="w-0 h-0 border-l-[24px] border-l-transparent border-r-[24px] border-r-transparent border-t-[48px] border-t-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.8)]" />
+            </div>
 
-        {/* La roue */}
-        <div
-          ref={wheelRef}
-          className="w-full h-full rounded-full shadow-2xl relative overflow-hidden border-8 border-amber-200"
-          style={{
-            transform: `rotate(${rotation}deg)`,
-            transition: isSpinning ? 'transform 10s cubic-bezier(0.17, 0.67, 0.42, 0.99)' : 'none'
-          }}
-        >
-          {dares.map((dare, index) => {
-            const angle = (360 / dares.length) * index;
-            const colors = [
-              'bg-orange-400', 'bg-red-500', 'bg-pink-400', 'bg-pink-600', 'bg-purple-700',
-              'bg-violet-500','bg-blue-400', 'bg-cyan-400', 'bg-green-400', 'bg-yellow-300'
-            ];
+            {/* La roue SVG */}
+            <div
+              className="w-full h-full rounded-full shadow-[0_0_60px_rgba(168,85,247,0.6)] relative border-8 border-amber-400"
+              style={{
+                transform: `rotate(${rotation}deg)`,
+                transition: isSpinning ? 'transform 10s cubic-bezier(0.1, 0.5, 0.6, 0.99)' : 'none'
+              }}
+            >
+              <svg viewBox="0 0 400 400" className="w-full h-full rounded-full">
+                {/* Dégradé pour effet brillant */}
+                <defs>
+                  <radialGradient id="shine">
+                    <stop offset="0%" stopColor="rgba(255,255,255,0.1)" />
+                    <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+                  </radialGradient>
+                </defs>
 
-            return (
-				<div key={index}>
-				  {/* Triangle de couleur */}
-				  <div
-					className={`absolute w-full h-full ${colors[index % colors.length]}`}
-					style={{
-					  transform: `rotate(${angle}deg)`,
-					  clipPath: `polygon(50% 50%, 50% 0%, ${50 + 50 * Math.sin((360 / dares.length) * Math.PI / 180)}% ${50 - 50 * Math.cos((360 / dares.length) * Math.PI / 180)}%)`
-					}}
-				  />
-				  
-				  {/* Conteneur qui tourne autour du centre */}
-				  <div
-					className="absolute w-full h-full"
-					style={{
-					  transform: `rotate(${angle + 180 / dares.length}deg)`
-					}}
-				  >
-					{/* Contenu qui reste droit */}
-					<div
-					  className="absolute left-1/2 top-[12%] -translate-x-1/2 text-center"
-					>
-					  <div 
-						className="text-3xl mb-2"
-						style={{ 
-						  filter: 'drop-shadow(3px 3px 6px rgba(0,0,0,0.8))'
-						}}
-					  >
-						{dare.icon}
-					  </div>
-					</div>
-				  </div>
-				</div>
-			  );
-          })}
+                {dares.map((dare, index) => {
+                  const startAngle = (360 / dares.length) * index;
+                  const endAngle = (360 / dares.length) * (index + 1);
+                  const middleAngle = (startAngle + endAngle) / 2;
 
-          {/* Centre de la roue */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full shadow-lg border-4 border-amber-200 flex items-center justify-center">
-            <div className="w-4 h-4 bg-amber-200 rounded-full" />
+                  // Position de l'emoji (70% du rayon)
+                  const emojiX = 200 + 140 * Math.cos((middleAngle - 90) * Math.PI / 180);
+                  const emojiY = 200 + 140 * Math.sin((middleAngle - 90) * Math.PI / 180);
+
+                  return (
+                    <g key={index}>
+                      {/* Segment de cercle parfait */}
+                      <path
+                        d={describeArc(200, 200, 200, startAngle, endAngle)}
+                        fill={colors[index]}
+                        stroke="rgba(0,0,0,0.3)"
+                        strokeWidth="2"
+                      />
+                      
+                      {/* Emoji avec rotation pour rester droit */}
+                      <text
+                        x={emojiX}
+                        y={emojiY}
+                        fontSize="52"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        transform={`rotate(${middleAngle}, ${emojiX}, ${emojiY})`}
+                        style={{
+                          filter: 'drop-shadow(3px 3px 8px rgba(0,0,0,0.9))'
+                        }}
+                      >
+                        {dare.icon}
+                      </text>
+                    </g>
+                  );
+                })}
+
+                {/* Effet de brillance sur toute la roue */}
+                <circle cx="200" cy="200" r="200" fill="url(#shine)" />
+              </svg>
+
+              {/* Centre de la roue doré */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-gradient-to-br from-amber-300 via-amber-400 to-amber-600 rounded-full shadow-[0_0_30px_rgba(251,191,36,0.8)] border-4 border-amber-200 flex items-center justify-center">
+                <div className="w-6 h-6 bg-amber-900 rounded-full shadow-inner" />
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Panneau de contrôle */}
+        <div className="flex flex-col items-center gap-8">
+          {/* Titre mystérieux */}
+          <div className="text-center">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-2 drop-shadow-lg">
+              La Roue du Destin
+            </h1>
+            <p className="text-amber-200 text-sm italic">Oseras-tu tourner la roue ?</p>
+          </div>
+
+          {/* Bouton de lancement */}
+          <button
+            onClick={spinWheel}
+            disabled={isSpinning}
+            className="group relative px-10 py-5 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 hover:from-purple-500 hover:via-pink-500 hover:to-red-500 disabled:from-gray-600 disabled:via-gray-700 disabled:to-gray-600 text-white font-bold text-xl rounded-full shadow-[0_0_30px_rgba(168,85,247,0.5)] transform transition-all duration-300 hover:scale-110 hover:shadow-[0_0_50px_rgba(168,85,247,0.8)] disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none"
+          >
+            <span className="relative z-10 flex items-center gap-3">
+              {isSpinning ? (
+                <>
+                  <span className="animate-spin">🪩</span>
+                  En cours...
+                </>
+              ) : (
+                <>
+                  ✨ Lancer la roue
+                </>
+              )}
+            </span>
+            {/* Effet de lueur animé */}
+            {!isSpinning && (
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-300" />
+            )}
+          </button>
+
+          {/* Résultat */}
+          {selectedDare && (
+            <div className="relative">
+              {/* Halo derrière la carte */}
+              <div className="absolute inset-0 blur-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 opacity-50 rounded-xl scale-105" />
+              
+              <div className="relative bg-gradient-to-br from-gray-900 via-purple-900 to-black border-2 border-amber-400 rounded-xl p-8 shadow-[0_0_40px_rgba(251,191,36,0.4)] max-w-md animate-pulse">
+                <div className="absolute top-4 right-4">
+                  <div className="w-3 h-3 bg-amber-400 rounded-full animate-ping" />
+                </div>
+                
+                <h2 className="text-2xl font-bold text-amber-300 text-center mb-4 tracking-wide">
+                  🎯 Ton Destin
+                </h2>
+                
+                <div className="bg-black/30 rounded-lg p-6 backdrop-blur-sm">
+                  <div className="text-6xl text-center mb-4">{selectedDare.icon}</div>
+                  <p className="text-3xl font-bold bg-gradient-to-r from-amber-200 via-pink-300 to-purple-300 bg-clip-text text-transparent text-center leading-tight">
+                    {selectedDare.text}
+                  </p>
+                </div>
+
+                {/* Étoiles décoratives */}
+                <div className="flex justify-center gap-2 mt-4">
+                  <span className="text-amber-400 text-xl">✧</span>
+                  <span className="text-pink-400 text-xl">✦</span>
+                  <span className="text-purple-400 text-xl">✧</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-
-	 <div className="flex flex-col items-center gap-10">
-		  {/* Bouton de lancement */}
-		  <button
-			onClick={spinWheel}
-			disabled={isSpinning}
-			className="px-8 py-4 bg-amber-300 hover:bg-amber-500 disabled:bg-gray-400 text-gray-900 font-bold text-xl rounded-full shadow-lg transform transition hover:scale-105 disabled:cursor-not-allowed disabled:scale-100"
-		  >
-			{isSpinning ? ' En cours...' : ' Lancer la roue !'}
-		  </button>
-
-		  {/* Résultat */}
-		  {selectedDare && (
-			<div className="bg-white rounded-lg p-6 shadow-2xl max-w-md animate-bounce">
-			  <h2 className="text-2xl font-bold text-gray-800 text-center mb-2">
-				Ton gage :
-			  </h2>
-			  <p className="text-3xl font-bold text-purple-600 text-center">
-				{selectedDare}
-			  </p>
-			</div>
-		  )}
-	</div>
     </div>
   );
 }

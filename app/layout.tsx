@@ -1,14 +1,23 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
 
-// Configuration de la police Google Fonts
-const inter = Inter({ subsets: ['latin'] })
+// Police élégante pour le titre
+const playfair = Playfair_Display({ 
+  subsets: ['latin'],
+  variable: '--font-playfair'
+})
+
+// Police pour le corps de texte
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter'
+})
 
 // Métadonnées pour le SEO
 export const metadata: Metadata = {
-  title: 'Roue à Gages',
-  description: 'Lance la roue et découvre ton gage !',
+  title: 'La Roue du Destin - Mystère & Séduction',
+  description: 'Ose tourner la roue et découvre ton gage mystérieux...',
 }
 
 export default function RootLayout({
@@ -18,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
+      <body className={`${inter.variable} ${playfair.variable} ${inter.className}`}>
         {children}
       </body>
     </html>
