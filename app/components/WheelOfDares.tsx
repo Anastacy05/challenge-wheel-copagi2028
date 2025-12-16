@@ -83,8 +83,8 @@ export default function WheelOfDares() {
       <div className="flex flex-col lg:flex-row items-center gap-10">
         {/* Conteneur de la roue */}
         <div className="relative">
-          {/* Halo lumineux derrière la roue */}
-          <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 opacity-30 rounded-full scale-110" />
+          {/* Halo lumineux derrière la roue - ROUGE/OR */}
+          <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-red-600 via-amber-500 to-red-600 opacity-30 rounded-full scale-110" />
           
           <div className="relative w-96 h-96">
             {/* Indicateur (flèche dorée) */}
@@ -94,7 +94,7 @@ export default function WheelOfDares() {
 
             {/* La roue SVG */}
             <div
-              className="w-full h-full rounded-full shadow-[0_0_60px_rgba(168,85,247,0.6)] relative border-8 border-amber-400"
+              className="w-full h-full rounded-full shadow-[0_0_60px_rgba(220,38,38,0.6)] relative border-8 border-amber-400"
               style={{
                 transform: `rotate(${rotation}deg)`,
                 transition: isSpinning ? 'transform 10s cubic-bezier(0.1, 0.5, 0.6, 0.99)' : 'none'
@@ -162,7 +162,7 @@ export default function WheelOfDares() {
         <div className="flex flex-col items-center gap-8">
           {/* Titre mystérieux */}
           <div className="text-center">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-300 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-2 drop-shadow-lg">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-300 via-red-400 to-amber-300 bg-clip-text text-transparent mb-2 drop-shadow-lg">
               La Roue du Destin
             </h1>
             <p className="text-amber-200 text-sm italic">Oseras-tu tourner la roue ?</p>
@@ -172,12 +172,12 @@ export default function WheelOfDares() {
           <button
             onClick={spinWheel}
             disabled={isSpinning}
-            className="group relative px-10 py-5 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 hover:from-purple-500 hover:via-pink-500 hover:to-red-500 disabled:from-gray-600 disabled:via-gray-700 disabled:to-gray-600 text-white font-bold text-xl rounded-full shadow-[0_0_30px_rgba(168,85,247,0.5)] transform transition-all duration-300 hover:scale-110 hover:shadow-[0_0_50px_rgba(168,85,247,0.8)] disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none"
+            className="group relative px-10 py-5 bg-gradient-to-r from-red-700 via-red-600 to-red-700 hover:from-red-600 hover:via-red-500 hover:to-red-600 disabled:from-gray-600 disabled:via-gray-700 disabled:to-gray-600 text-amber-100 font-bold text-xl rounded-full shadow-[0_0_30px_rgba(220,38,38,0.5)] transform transition-all duration-300 hover:scale-110 hover:shadow-[0_0_50px_rgba(220,38,38,0.8)] disabled:cursor-not-allowed disabled:scale-100 disabled:shadow-none"
           >
             <span className="relative z-10 flex items-center gap-3">
               {isSpinning ? (
                 <>
-                  <span className="animate-spin">🪩</span>
+                  <span className="animate-spin">🔮</span>
                   En cours...
                 </>
               ) : (
@@ -188,17 +188,17 @@ export default function WheelOfDares() {
             </span>
             {/* Effet de lueur animé */}
             {!isSpinning && (
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-300" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-400 via-red-400 to-amber-400 opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-300" />
             )}
           </button>
 
           {/* Résultat */}
           {selectedDare && (
             <div className="relative">
-              {/* Halo derrière la carte */}
-              <div className="absolute inset-0 blur-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 opacity-50 rounded-xl scale-105" />
+              {/* Halo derrière la carte - ROUGE/OR */}
+              <div className="absolute inset-0 blur-2xl bg-gradient-to-r from-red-600 via-amber-500 to-red-600 opacity-50 rounded-xl scale-105" />
               
-              <div className="relative bg-gradient-to-br from-gray-900 via-purple-900 to-black border-2 border-amber-400 rounded-xl p-8 shadow-[0_0_40px_rgba(251,191,36,0.4)] max-w-md animate-pulse">
+              <div className="relative bg-gradient-to-br from-black via-red-950 to-black border-2 border-amber-400 rounded-xl p-8 shadow-[0_0_40px_rgba(251,191,36,0.4)] max-w-md animate-pulse">
                 <div className="absolute top-4 right-4">
                   <div className="w-3 h-3 bg-amber-400 rounded-full animate-ping" />
                 </div>
@@ -207,18 +207,18 @@ export default function WheelOfDares() {
                   🎯 Ton Destin
                 </h2>
                 
-                <div className="bg-black/30 rounded-lg p-6 backdrop-blur-sm">
+                <div className="bg-black/40 rounded-lg p-6 backdrop-blur-sm border border-red-900/30">
                   <div className="text-6xl text-center mb-4">{selectedDare.icon}</div>
-                  <p className="text-3xl font-bold bg-gradient-to-r from-amber-200 via-pink-300 to-purple-300 bg-clip-text text-transparent text-center leading-tight">
+                  <p className="text-3xl font-bold bg-gradient-to-r from-amber-200 via-red-300 to-amber-200 bg-clip-text text-transparent text-center leading-tight">
                     {selectedDare.text}
                   </p>
                 </div>
 
-                {/* Étoiles décoratives */}
+                {/* Étoiles décoratives - OR/ROUGE */}
                 <div className="flex justify-center gap-2 mt-4">
                   <span className="text-amber-400 text-xl">✧</span>
-                  <span className="text-pink-400 text-xl">✦</span>
-                  <span className="text-purple-400 text-xl">✧</span>
+                  <span className="text-red-400 text-xl">✦</span>
+                  <span className="text-amber-400 text-xl">✧</span>
                 </div>
               </div>
             </div>

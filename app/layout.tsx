@@ -16,7 +16,7 @@ const inter = Inter({
 
 // Métadonnées pour le SEO
 export const metadata: Metadata = {
-  title: 'La Roue du Destin - Mystère & Séduction',
+  title: 'La Roue du Destin - Mystère et Séduction',
   description: 'Ose tourner la roue et découvre ton gage mystérieux...',
 }
 
