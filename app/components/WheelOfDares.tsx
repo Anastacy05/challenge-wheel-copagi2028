@@ -79,8 +79,50 @@ export default function WheelOfDares() {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8">
-      <div className="flex flex-col lg:flex-row items-center gap-10">
+    <div className="min-h-screen flex items-center justify-center p-8 relative overflow-hidden">
+      {/* Texte de fond "Mystère et Séduction" - en haut à gauche */}
+      <div className="absolute top-8 left-8 z-0 opacity-30 hover:opacity-50 transition-opacity duration-500 blur-[1.5px]">
+        <div className="flex items-center gap-6">
+          <div className="text-[80px] font-bold">
+            <div className="bg-gradient-to-br from-red-700/70 via-amber-500/60 to-red-800/70 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+              <div className="font-serif italic">Mystère</div>
+            </div>
+          </div>
+          <div className="text-[50px] font-bold">
+            <div className="bg-gradient-to-br from-amber-500/70 via-amber-400/60 to-amber-500/70 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+              <div className="font-serif italic">&</div>
+            </div>
+          </div>
+          <div className="text-[80px] font-bold">
+            <div className="bg-gradient-to-br from-red-700/70 via-amber-500/60 to-red-800/70 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+              <div className="font-serif italic">Séduction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Texte de fond "COPA GI 2028" - en bas à droite */}
+      <div className="absolute bottom-8 right-8 z-0 opacity-30 hover:opacity-50 transition-opacity duration-500 blur-[1.5px]">
+        <div className="flex items-center gap-6">
+          <div className="text-[70px] font-bold">
+            <div className="bg-gradient-to-tl from-red-700/70 via-amber-500/60 to-red-800/70 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+              <div className="font-mono">COPA</div>
+            </div>
+          </div>
+          <div className="text-[70px] font-bold">
+            <div className="bg-gradient-to-tl from-amber-500/70 via-amber-400/60 to-amber-500/70 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+              <div className="font-mono">GI</div>
+            </div>
+          </div>
+          <div className="text-[70px] font-bold">
+            <div className="bg-gradient-to-tl from-red-700/70 via-amber-500/60 to-red-800/70 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+              <div className="font-mono">2028</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col lg:flex-row items-center gap-10 relative z-10">
         {/* Conteneur de la roue */}
         <div className="relative">
           {/* Halo lumineux derrière la roue - ROUGE/OR */}
